@@ -18,10 +18,14 @@
     "web3": "^1.6.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "npm run truffle:build && npm run react:start",
+    "react:start": "react-scripts start",
+    "react:build": "react-scripts build",
+    "react:test": "react-scripts test",
+    "react:eject": "react-scripts eject",
+    "lint": "solhint contracts/**/*.sol && prettier '**/*.{json,sol,md}' --check",
+    "lint:fix": "solhint contracts/**/*.sol --fix; prettier '**/*.{json,sol,md}' --write",
+    "truffle:build": "truffle compile"
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +47,8 @@
   },
   "devDependencies": {
     "@openzeppelin/contracts": "^4.4.0",
+    "eslint": "^8.4.1",
+    "prettier": "^2.5.1",
     "solhint": "^3.3.6",
     "solhint-plugin-prettier": "^0.0.5",
     "truffle": "^5.4.23"
