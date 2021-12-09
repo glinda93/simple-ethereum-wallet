@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useEffect, useState } from "react";
+import Web3Context, { web3 } from "./contexts/Web3Context";
+import AccountsContext from "./contexts/AccountsContext";
+import BalanceTable from "./components/BalanceTable";
+import "./App.css";
 
 function App() {
+  const [accounts, setAccounts] = useState<string[]>([]);
+
+  const getAccounts = useCallback(async () => {
+    const fetchedAccounts = await web3.eth.getAccounts();
+    setAccounts(fetchedAccounts);
+  }, []);
+
+  useEffect(() => {
+    getAccounts();
+  }, [getAccounts]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Web3Context.Provider value={web3}>
+      <AccountsContext.Provider value={accounts}>
+        <BalanceTable />
+      </AccountsContext.Provider>
+    </Web3Context.Provider>
   );
 }
 
